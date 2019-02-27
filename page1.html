@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Gallery</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <style>
+      #slider {
+        /*border: 3px solid black;*/
+        width: 500px;
+        height: 500px;
+        margin-top: 50px;
+        overflow: hidden;
+      }
+      #polosa {
+        /*background-color: #ff6a47;*/
+        width: 500px;
+        left: 0;
+        position: relative;
+      }
+      #polosa img {
+        width: 500px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        transition: all ease 1s;
+      }
+      /*#polosa::after {*/
+      /*content: "";*/
+      /*display: block;*/
+      /*clear: both;*/
+      /*}*/
+    </style>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2">
+          <button
+            class="btn btn-default btn-md"
+            id="prev-button"
+            style="margin-top: 250px"
+          >
+            prev
+          </button>
+        </div>
+        <div class="col-md-7 ml-auto mr-auto ">
+          <div id="slider">
+            <div id="polosa">
+              <img src="images/gimages/barbie-500x500.png" alt="" />
+              <img src="images/gimages/base_ball-500x500.png" alt="" />
+              <img src="images/gimages/batman-500x500.png" alt="" />
+              <img src="images/gimages/bear-500x500.png" alt="" />
+              <img src="images/gimages/chess-500x500.png" alt="" />
+              <img src="images/gimages/umbrela-500x500.png" alt="" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <button
+            class="btn btn-default btn-md"
+            id="next-button"
+            style="margin-top: 250px"
+          >
+            next
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    /*let position = 0;
+    document.getElementById("prev-button").onclick = function() {
+      position = position - 500;
+      if (position < -2500) {
+        position = 0;
+      }
+      let poloska = document.getElementById("polosa");
+      poloska.style.left = position + "px";
+    };
+    document.getElementById("next-button").onclick = function() {
+      position = position + 500;
+      let poloska = document.getElementById("polosa");
+      poloska.style.left = position + "px";
+    };*/
+
+    let src_images = document.querySelectorAll("#polosa img");
+    let images = [];
+    for (let i = 0; i < src_images.length; i++) {
+      images.push(src_images[i].src);
+      src_images[i].remove();
+    }
+    console.log(images);
+    let count = 0;
+    let position = 0;
+    function draw() {
+      let img = document.createElement("img");
+      img.style.left = position * 512 + "px";
+      img.src = images[count];
+      document.getElementById("polosa").appendChild(img);
+      if (count + 1 === images.length) {
+        count = 0;
+      } else {
+        count++;
+      }
+      position = 1;
+    }
+    draw();
+    draw();
+    function left() {
+      let src_images2 = document.querySelectorAll("#polosa img");
+      let position2 = 0;
+      for (let n = 0; n < src_images2.length; n++) {
+        src_images2[n].style.left = position2 * 512 - 512 + "px";
+        position2++;
+      }
+      setTimeout(function() {
+        src_images2[0].remove();
+        draw();
+      }, 1000);
+    }
+    document.getElementById("prev-button").onclick = left;
+
+    const ajax = (url, callback) => {
+      const response = {
+        status: "ok",
+        data: 10
+      };
+      const afterTimout = () => {
+        callback(response);
+      };
+      setTimeout(afterTimout, 2000);
+    };
+
+    const cb = result => console.log(result);
+
+    console.log("start");
+    ajax("https://mydomain.com/asdasd.php", cb);
+    console.log("end");
+  </script>
+</html>
